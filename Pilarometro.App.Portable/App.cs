@@ -49,6 +49,7 @@ namespace Pilarometro.App.Portable
 
 		public void DeleteUser(){
 			UserDataAccess.DeleteAll ();
+			MainPage.Navigation.PushModalAsync(new LoginPage ());
 		}
 
 		public Action SuccessfulLoginAction

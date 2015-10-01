@@ -44,16 +44,8 @@
     <Compile Include="Utils\DataAccess\IUserDataAcess.cs" />
     <Compile Include="Utils\DataAccess\UserDataAccess.cs" />
     <Compile Include="Utils\Mappers\MapperServiceClient.cs" />
-    <Compile Include="Utils\ServiceClients\Converters\CustomDateTimeJsonConverter.cs" />
-    <Compile Include="Utils\ServiceClients\Models\Coordinates.cs" />
-    <Compile Include="Utils\ServiceClients\Models\EsEntityType.cs" />
-    <Compile Include="Utils\ServiceClients\Models\LocalizedMessage.cs" />
-    <Compile Include="Utils\ServiceClients\Models\User.cs" />
-    <Compile Include="Utils\ServiceClients\Models\UserPosition.cs" />
-    <Compile Include="ViewModels\Message.cs" />
     <Compile Include="ViewModels\Option.cs" />
     <Compile Include="ViewModels\User.cs" />
-    <Compile Include="Views\Cells\MessageCell.cs" />
     <Compile Include="Views\Cells\OptionCell.cs" />
     <Compile Include="Views\Cells\UserCell.cs" />
     <Compile Include="Views\Controls\UserInfoControl.cs" />
@@ -65,6 +57,17 @@
     <Compile Include="Views\Pages\RootPage.cs" />
     <Compile Include="Utils\Geo\Location.cs" />
     <Compile Include="Utils\ServiceClients\ServiceClient.cs" />
+    <Compile Include="Utils\ServiceClients\DTOs\PointOfInterestDto.cs" />
+    <Compile Include="Utils\ServiceClients\DTOs\UserDto.cs" />
+    <Compile Include="Utils\ServiceClients\Requests\FindPointOfInterestRequest.cs" />
+    <Compile Include="Utils\ServiceClients\Requests\FindPointsOfInterestRequest.cs" />
+    <Compile Include="Utils\ServiceClients\Requests\FindUserPointsOfInterestRequest.cs" />
+    <Compile Include="Utils\ServiceClients\Requests\UpdateUserPointsOfInterestRequest.cs" />
+    <Compile Include="Utils\ServiceClients\Responses\FindPointOfInterestResponse.cs" />
+    <Compile Include="Utils\ServiceClients\Responses\FindPointsOfInterestResponse.cs" />
+    <Compile Include="Utils\ServiceClients\Responses\FindUserPointsOfInterestResponse.cs" />
+    <Compile Include="Utils\ServiceClients\Responses\UpdateUserPointsOfInterestResponse.cs" />
+    <Compile Include="Utils\ServiceClients\Requests\QueryRequest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
@@ -109,5 +112,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Utils\Geo\" />
+    <Folder Include="Utils\ServiceClients\Responses\" />
+    <Folder Include="Utils\ServiceClients\DTOs\" />
   </ItemGroup>
 </Project>

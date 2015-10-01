@@ -52,7 +52,7 @@ namespace Pilarometro.App.Android
 			var locationProvider = _locationManager.GetBestProvider(locationCriteria, true);
 			if(locationProvider != null)
 			{
-				_locationManager.RequestLocationUpdates (locationProvider, 5000, 1, this);
+				_locationManager.RequestLocationUpdates (locationProvider, 500, 1, this);
 			}
 
 			var pclApp = App.Portable.App.Instance;

@@ -19,7 +19,7 @@ namespace Pilarometro.App.Portable.Pages
 				HorizontalOptions = LayoutOptions.Center,
 				VerticalOptions = LayoutOptions.Center,
 				Content = new Label {
-				Text = "Echoing",
+				Text = "Pilarometro",
 				FontSize = 50,
 				FontAttributes = FontAttributes.Bold,
 				HorizontalOptions = LayoutOptions.Center
@@ -33,9 +33,9 @@ namespace Pilarometro.App.Portable.Pages
 				VerticalOptions = LayoutOptions.Center,
 				Content = new Label
 				{
-					Text = "Echoing is another messaging app " +
-						"with briefly persistent messages only " +
-						"visible for those that surrounds you.\n\nAnd it's gone...",
+					Text = "Cuanto te vas a divertir estos pilares? " +
+						"Dificil de medir, no? " +
+						"Averigualo con esta App.\n\nO no...",
 					FontSize = 20,
 					HorizontalOptions = LayoutOptions.Center
 				}

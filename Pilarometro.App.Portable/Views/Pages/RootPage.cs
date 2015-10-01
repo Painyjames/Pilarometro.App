@@ -32,40 +32,6 @@ namespace Pilarometro.App.Portable.Pages
 			}
 		}
 
-//		async void ShowLoginDialog()
-//		{
-//			var page = new LoginPage();
-
-//			await Navigation.PushModalAsync(page);
-//		}
-
-//		void NavigateTo(OptionItem option)
-//		{
-//		}
-//
-//		Page PageForOption (OptionItem option)
-//		{
-//			// TODO: Refactor this to the Builder pattern (see ICellFactory).
-//			if (option.Title == "Contacts")
-//				return new MasterPage<Contact>(option);
-//			if (option.Title == "Leads")
-//				return new MasterPage<Lead>(option);
-//			if (option.Title == "Accounts") {
-//				var page = new MasterPage<Account>(option);
-//				var cell = page.List.Cell;
-//				cell.SetBinding(TextCell.TextProperty, "Company");
-//				return page;
-//			}
-//			if (option.Title == "Opportunities") {
-//				var page = new MasterPage<Opportunity>(option);
-//				var cell = page.List.Cell;
-//				cell.SetBinding(TextCell.TextProperty, "Company");
-//				cell.SetBinding(TextCell.DetailProperty, new Binding("EstimatedAmount", stringFormat: "{0:C}"));
-//				return page;
-//			}
-//			throw new NotImplementedException("Unknown menu option: " + option.Title);
-//		}
-
 	}
 }
 

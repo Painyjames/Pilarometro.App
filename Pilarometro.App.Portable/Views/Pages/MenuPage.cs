@@ -10,11 +10,12 @@ namespace Pilarometro.App.Portable.Pages
 	{
 		public MenuPage ()
 		{ 
-			var mapCell = new OptionCell ("Map", "http://www.frevvo.com/img/paper-plane-512.png");
-			var logOutCell = new OptionCell ("Log out", "http://www.frevvo.com/img/paper-plane-512.png");
+			var logOutCell = new OptionCell ("Log out", (sender, eventArgs) => { 
+				App.Instance.DeleteUser();
+			});
 
 			var lvMenu = new ListView ();
-			lvMenu.ItemsSource = new List<OptionCell>(){ mapCell, logOutCell };
+			lvMenu.ItemsSource = new List<OptionCell>(){ logOutCell };
 			lvMenu.ItemTemplate = new DataTemplate(typeof(OptionCell));
 
 			this.Content = new StackLayout {
