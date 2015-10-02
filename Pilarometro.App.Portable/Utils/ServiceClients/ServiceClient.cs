@@ -34,13 +34,18 @@ namespace Pilarometro.App.Portable.Utils.ServiceClients
 			}
 		}
 
-		public async Task GetPointOfInterest(FindPointOfInterestRequest request){
+		public async Task<FindPointOfInterestResponse> GetPointOfInterest(FindPointOfInterestRequest request){
 			try
 			{
 				using (var httpClient = new HttpClient ()) {
 					httpClient.BaseAddress = new Uri(Url);
-					var response = await httpClient.GetAsync (string.Format("PoinstOfInterest/{0}",request.Id));
-					response.EnsureSuccessStatusCode ();
+					return await httpClient.GetAsync (string.Format("PointsOfInterest/{0}",request.Id))
+					.ContinueWith(c => {
+						var result = c.Result;
+						result.EnsureSuccessStatusCode();
+						var json = result.Content.ReadAsStringAsync().Result;
+						return JsonConvert.DeserializeObject<FindPointOfInterestResponse>(json);
+					});
 				}
 			}catch(Exception ex){
 				Debug.WriteLine (ex.Message);
@@ -53,7 +58,7 @@ namespace Pilarometro.App.Portable.Utils.ServiceClients
 			{
 				using (var httpClient = new HttpClient ()) {
 					httpClient.BaseAddress = new Uri(Url);
-					var response = await httpClient.GetAsync (string.Format("User/{0}/PoinstOfInterest",request.Id));
+					var response = await httpClient.GetAsync (string.Format("User/{0}/PointsOfInterest",request.Id));
 					response.EnsureSuccessStatusCode ();
 				}
 			}catch(Exception ex){
@@ -69,12 +74,13 @@ namespace Pilarometro.App.Portable.Utils.ServiceClients
 					httpClient.BaseAddress = new Uri(Url);
 					var json = JsonConvert.SerializeObject(request);
 					var content = new StringContent (json, Encoding.UTF8, "application/json");
-					var response = await httpClient.PutAsync (string.Format("User/{0}/PoinstOfInterest",request.User.Id), content);
-					response.EnsureSuccessStatusCode ();
-					return await response.Content.ReadAsStringAsync()
-						.ContinueWith(c => {
-							return JsonConvert.DeserializeObject<UpdateUserPointsOfInterestResponse>(c.Result);
-						});
+					return await httpClient.PutAsync (string.Format("User/{0}/PointsOfInterest",request.User.Id), content)
+					.ContinueWith(c => {
+						var result = c.Result;
+						result.EnsureSuccessStatusCode();
+						var jsonResult = result.Content.ReadAsStringAsync().Result;
+						return JsonConvert.DeserializeObject<UpdateUserPointsOfInterestResponse>(jsonResult);
+					});
 				}
 			}catch(Exception ex){
 				Debug.WriteLine (ex.Message);

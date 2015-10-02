@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Pilarometro.App.Portable.DTOs;
 
 namespace Pilarometro.App.Portable.Utils.Authentication
 {
@@ -7,6 +9,7 @@ namespace Pilarometro.App.Portable.Utils.Authentication
 		string Name { get; set; }
 		string Email { get; set; }
 		string Picture { get; set; }
+		List<PointOfInterestDto> PointsOfInterest{ get; }
 	}
 }
 

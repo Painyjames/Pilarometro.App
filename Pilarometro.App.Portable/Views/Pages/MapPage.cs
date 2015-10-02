@@ -17,19 +17,59 @@ namespace Pilarometro.App.Portable.Pages
 		private Map _map;
 
 		public void LoadMap (){
-			var position = new Position (App.Instance.Latitude.Value, App.Instance.Longitude.Value);
-			_map = new Map(MapSpan.FromCenterAndRadius (position, Distance.FromMiles (0.3))) {
-				IsShowingUser = true,
-				HeightRequest = 250,
-				WidthRequest = 960,
-				VerticalOptions = LayoutOptions.FillAndExpand
-			};
-			var stack = new StackLayout { Spacing = 0 };
-
 			GetPointsOfInterest ();
 
-			stack.Children.Add(_map);
-			Content = stack;
+			var position = new Position (App.Instance.Latitude.Value, App.Instance.Longitude.Value);
+			_map = new Map(MapSpan.FromCenterAndRadius (position, Distance.FromMiles (0.3))) {
+				IsShowingUser = true
+			};
+			var score = new StackLayout () {
+				BackgroundColor = Color.FromHex("FF7F7F"),
+				Children = {
+
+					new Label() { 
+						Text = string.Format("Puntuacion {0}", App.Instance.User.GetScore()),
+						FontSize = 22,
+						FontAttributes = FontAttributes.Bold,
+						TextColor = Color.White,
+						HorizontalOptions = LayoutOptions.Center,
+						VerticalOptions = LayoutOptions.CenterAndExpand
+					},
+				}	
+			};
+
+			var relativeLayout = new RelativeLayout () {
+				HeightRequest = 150
+			};
+
+			relativeLayout.Children.Add (
+				_map,
+				Constraint.Constant (0),
+				Constraint.Constant (0),
+				Constraint.RelativeToParent ((parent) => {
+					return parent.Width;
+				}),
+				Constraint.RelativeToParent ((parent) => {
+					//TODO: change it
+					return 470;
+				})
+			);
+
+			relativeLayout.Children.Add (
+				score,
+				Constraint.Constant (0),
+				Constraint.RelativeToParent ((parent) => {
+					return parent.Height - 50;
+				}),
+				Constraint.RelativeToParent ((parent) => {
+					return parent.Width;
+				}),
+				Constraint.RelativeToParent ((parent) => {
+					return 50;
+				})
+			);
+
+			Content = relativeLayout;
 			OnPropertyChanged ("Content");
 		}
 
@@ -42,7 +82,9 @@ namespace Pilarometro.App.Portable.Pages
 				PageSize = 200
 			})
 			.ContinueWith (c => {
-				Device.BeginInvokeOnMainThread(() => AddPins (c.Result.PointsOfInterest));
+				App.Instance.PointsOfInterest = c.Result.PointsOfInterest;
+				App.Instance.CheckIfVisited ();
+				Device.BeginInvokeOnMainThread(() => AddPins (App.Instance.PointsOfInterest));
 			});
 		}
 
@@ -53,11 +95,7 @@ namespace Pilarometro.App.Portable.Pages
 					Type = PinType.SearchResult,
 					Label = pointOfInterest.Name
 				};
-				try{
 				_map.Pins.Add (pin);
-				}catch(Exception ex){
-					var e = ex;
-				}
 			}
 			OnPropertyChanged ("Content");
 		}

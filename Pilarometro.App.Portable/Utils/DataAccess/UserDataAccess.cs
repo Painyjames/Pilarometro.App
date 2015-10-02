@@ -7,12 +7,12 @@ namespace Pilarometro.App.Portable.Utils.DataAccess
 	public class UserDataAccess : DataAccess, IUserDataAccess
 	{
 
-		public IUserInfo GetUser ()
+		public UserInfo GetUser ()
 		{
 			return (from u in GetConnection().Table<UserInfo>() select u).FirstOrDefault();
 		}
 
-		public void SaveUser (IUserInfo user)
+		public void SaveUser (UserInfo user)
 		{
 			GetConnection().Insert(user, typeof(UserInfo));
 		}

@@ -5,6 +5,11 @@ using Pilarometro.App.Portable.Utils.Authentication;
 using Pilarometro.App.Portable.Utils.DataAccess;
 using Pilarometro.App.Portable.Pages;
 using Pilarometro.App.Portable.Utils.Geo;
+using Pilarometro.App.Portable.Utils.ServiceClients;
+using Pilarometro.App.Portable.Requests;
+using Pilarometro.App.Portable.DTOs;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Pilarometro.App.Portable
 {
@@ -29,11 +34,21 @@ namespace Pilarometro.App.Portable
 			get { return User != null; }
 		}
 
-		private IUserInfo _user;
-		public IUserInfo User { 
+		private UserInfo _user;
+		public UserInfo User { 
 			get{ 
 				if (_user == null) {
 					_user = UserDataAccess.GetUser ();
+					new ServiceClient ().UpdateUser (new UpdateUserPointsOfInterestRequest {
+						User = new UserDto {
+							Id = _user.Email,
+							Email = _user.Email,
+							Name = _user.Name
+						}
+					})
+					.ContinueWith(c => {
+						_user.SetPointsOfInterest(c.Result.User.PointsOfInterest);
+					});					
 				}
 				return _user;
 			} 
@@ -43,7 +58,7 @@ namespace Pilarometro.App.Portable
 
 		public void SaveUser(object user)
 		{
-			_user = user as IUserInfo;
+			_user = user as UserInfo;
 			UserDataAccess.SaveUser(_user);
 		}
 
@@ -58,12 +73,34 @@ namespace Pilarometro.App.Portable
 				return new Action (() => {
 					if(!(MainPage is RootPage)){
 						var rootPage = new RootPage();
-						Instance.PositionChanged += (object sender, EventArgs e) => rootPage.PositionChanged();
+						Instance.PositionChanged += (object sender, EventArgs e) => 
+						{
+							rootPage.PositionChanged();
+							Instance.CheckIfVisited();
+						};
 						MainPage = rootPage;
 						OnPositionChanged();
 					}
 					else
 						MainPage.Navigation.PopModalAsync();
+				});
+			}
+		}
+
+		//TODO: put it somewhere else
+		public void CheckIfVisited(){
+			var newPointsVisited = App.Instance.PointsOfInterest
+				.Where (p => Location.Distance(p.Coordinates.Lon.Value, p.Coordinates.Lat.Value, Longitude.Value, Latitude.Value) < 0.05
+					& !_user.GetPointsOfInterest().Any(up => up.Id == p.Id));
+			if (newPointsVisited.Any ()) {
+				_user.GetPointsOfInterest ().AddRange (newPointsVisited);
+				new ServiceClient ().UpdateUser (new UpdateUserPointsOfInterestRequest {
+					User = new UserDto {
+						Email = _user.Email,
+						Id = _user.Email,
+						Name = _user.Name,
+						PointsOfInterest = _user.GetPointsOfInterest()
+					}
 				});
 			}
 		}
@@ -99,6 +136,8 @@ namespace Pilarometro.App.Portable
 				}
 			} 
 		}
+
+		public List<PointOfInterestDto> PointsOfInterest { get; set; }
 
 		protected void OnPositionChanged()
 		{

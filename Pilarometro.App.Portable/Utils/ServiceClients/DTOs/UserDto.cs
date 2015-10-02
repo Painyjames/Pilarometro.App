@@ -10,6 +10,6 @@ namespace Pilarometro.App.Portable.DTOs
 		public string Id { get; set; }
 		public string Name { get; set; }
 		public string Email { get; set; }
-		public PointOfInterestDto PointOfInterest { get; set; }
+		public List<PointOfInterestDto> PointsOfInterest { get; set; }
 	}
 }

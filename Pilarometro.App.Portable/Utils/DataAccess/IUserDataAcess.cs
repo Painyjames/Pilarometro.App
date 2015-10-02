@@ -5,8 +5,8 @@ namespace Pilarometro.App.Portable.Utils.DataAccess
 {
 	public interface IUserDataAccess
 	{
-		IUserInfo GetUser();
-		void SaveUser(IUserInfo user);
+		UserInfo GetUser();
+		void SaveUser(UserInfo user);
 		void DeleteAll();
 		string DbPath { get; set; }
 	}

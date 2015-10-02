@@ -34,7 +34,6 @@
     <Compile Include="App.cs" />
     <Compile Include="Utils\Authentication\FacebookUserInfo.cs" />
     <Compile Include="Utils\Authentication\GoogleUserInfo.cs" />
-    <Compile Include="Utils\Authentication\IUserInfo.cs" />
     <Compile Include="Utils\Authentication\Oauth2AuthenticationLogin.cs" />
     <Compile Include="Utils\Authentication\Oauth2AuthenticatorFactory.cs" />
     <Compile Include="Utils\Authentication\Oauth2AuthenticatorType.cs" />
